@@ -6,8 +6,8 @@
     <string name="btn_data">Data</string>
     <string name="btn_hora">Hora</string>
     <string name="descricao">Descrição</string>
-    <string name="desc">Descrição do compromisso</string>
-    <string name="btn_ok">OK</string>
+    <string name="desc">Descrição</string>
+    <string name="btn_criar">Criar</string>
     <string name="compromissos_cadastrados">Compromissos cadastrados</string>
     <string name="btn_hoje">Hoje</string>
     <string name="btn_outradata">Outra data</string>
