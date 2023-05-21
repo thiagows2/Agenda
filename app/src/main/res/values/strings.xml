@@ -11,5 +11,5 @@
     <string name="compromissos_cadastrados">Compromissos cadastrados</string>
     <string name="btn_hoje">Hoje</string>
     <string name="btn_outradata">Outra data</string>
-    <string name="hint_compromissos">Lista de compromissos cadastrados</string>
+    <string name="mostra_compromissos">Nenhum compromisso cadastrado.</string>
 </resources>
