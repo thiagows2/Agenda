@@ -8,6 +8,27 @@ import android.database.sqlite.SQLiteDatabase;
 public class CompromissoDB {
     private final SQLiteDatabase mDatabase;
 
+    String listaCompromissos(String clausulaWhere, String[] argsWhere) {
+        Cursor cursor = queryCompromissos(clausulaWhere, argsWhere);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String data = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.DATA));
+                String hora = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.HORA));
+                String descricao = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.DESCRICAO));
+
+                if (hora != null && !descricao.isEmpty()) {
+                    stringBuilder.append(data).append(" - ").append(hora).append(" - ").append(descricao).append("\n");
+                }
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return stringBuilder.toString();
+    }
+
     public CompromissoDB(Context contexto) {
         mDatabase = new CompromissosDBHelper(contexto).getWritableDatabase();
     }
@@ -25,13 +46,6 @@ public class CompromissoDB {
         mDatabase.insert(CompromissosDBSchema.CompromissosTbl.NOME, null, valores);
     }
 
-    void removeBanco() {
-        int delete;
-        delete = mDatabase.delete(
-                CompromissosDBSchema.CompromissosTbl.NOME, null, null
-        );
-    }
-
     public Cursor queryCompromissos(String clausulaWhere, String[] argsWhere) {
         return mDatabase.query(CompromissosDBSchema.CompromissosTbl.NOME,
                 null,
@@ -43,4 +57,10 @@ public class CompromissoDB {
         );
     }
 
+    void removeBanco() {
+        int delete;
+        delete = mDatabase.delete(
+                CompromissosDBSchema.CompromissosTbl.NOME, null, null
+        );
+    }
 }

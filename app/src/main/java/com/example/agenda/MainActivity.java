@@ -3,18 +3,21 @@ package com.example.agenda;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class MainActivity extends AppCompatActivity {
-    private CompromissoDB mCompromissoDB;
+    private CompromissoDB compromissoDB;
     private String dataSelecionada;
     private String horaSelecionada;
     private EditText mDescricao;
+    private TextView compromissosTextView;
 
     void setDataSelecionada(String dataSelecionada) {
         this.dataSelecionada = dataSelecionada;
@@ -23,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     void setHoraSelecionada(String horaSelecionada) {
         this.horaSelecionada = horaSelecionada;
     }
-
-    private TextView mCompromissosTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +43,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        compromissosTextView = findViewById(R.id.textView_scroll);
         Button botaoHoje = findViewById(R.id.btn_hoje);
-        mCompromissosTextView = findViewById(R.id.textView_scroll);
 
         botaoHoje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostraCompromissos();
+                instaciaDB();
+                mostraCompromissos(getDataDeHoje());
             }
         });
     }
@@ -64,35 +66,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void criaCompromisso(String data, String hora, String descricao) {
-        if (mCompromissoDB == null) {
-            mCompromissoDB = new CompromissoDB(this);
+        if (data != null && hora != null) {
+            Compromisso compromisso = new Compromisso(data, hora, descricao);
+            compromissoDB.addCompromisso(compromisso);
+            mostraCompromissos(getDataDeHoje());
         }
-
-        Compromisso compromisso = new Compromisso(data, hora, descricao);
-        mCompromissoDB.addCompromisso(compromisso);
     }
 
-    private void mostraCompromissos() {
-        if (mCompromissoDB == null) return;
+    void mostraCompromissos(String data) {
+        String clausulaWhere = CompromissosDBSchema.CompromissosTbl.Cols.DATA + " = ?";
+        String[] argsWhere = new String[]{data};
+        String compromissos = compromissoDB.listaCompromissos(clausulaWhere, argsWhere);
 
-        Cursor cursor = mCompromissoDB.queryCompromissos(null, null);
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                String data = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.DATA));
-                String hora = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.HORA));
-                String descricao = cursor.getString(cursor.getColumnIndexOrThrow(CompromissosDBSchema.CompromissosTbl.Cols.DESCRICAO));
-
-                if (hora != null && !descricao.isEmpty()) {
-                    stringBuilder.append(data).append(" - ").append(hora).append(" - ").append(descricao).append("\n");
-                }
-            } while (cursor.moveToNext());
-
-            cursor.close();
-        }
-
-        mCompromissosTextView.setText(stringBuilder.toString());
+        compromissosTextView.setText(compromissos);
     }
 
+    private void instaciaDB() {
+        if (compromissoDB == null) {
+            compromissoDB = new CompromissoDB(this);
+        }
+    }
+
+    private String getDataDeHoje() {
+        LocalDate dataHoje = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        return dataHoje.format(formatter);
+    }
 }

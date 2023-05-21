@@ -64,14 +64,15 @@
 
     <EditText
         android:id="@+id/descricao_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/purple_500"
         android:ems="10"
         android:hint="@string/desc"
         android:inputType="text"
         android:minHeight="48dp"
-        android:backgroundTint="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
@@ -79,12 +80,23 @@
         android:id="@+id/btn_criar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/btn_criar"
-        android:backgroundTint="@color/purple_500"
-        android:textColor="#FFFFFF"
         android:layout_centerInParent="true"
-        app:layout_constraintTop_toBottomOf="@id/descricao_input"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="@string/btn_criar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descricao_input" />
+
+    <View
+        android:id="@+id/divisor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/purple_500"
+        app:layout_constraintTop_toBottomOf="@id/btn_criar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -95,10 +107,10 @@
         android:text="@string/compromissos_cadastrados"
         android:textColor="#000000"
         android:textSize="22sp"
-        app:layout_constraintTop_toBottomOf="@id/btn_criar"
+        app:layout_constraintTop_toBottomOf="@id/divisor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="30dp" />
 
     <LinearLayout
         android:id="@+id/linearlayout_botoes"
@@ -145,19 +157,19 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:layout_constraintTop_toBottomOf="@id/linearlayout_botoes"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearlayout_botoes">
 
-            <TextView
-                android:id="@+id/textView_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:text="@string/mostra_compromissos" />
+        <TextView
+            android:id="@+id/textView_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/mostra_compromissos"
+            android:textColor="#000000"
+            android:textSize="18sp" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

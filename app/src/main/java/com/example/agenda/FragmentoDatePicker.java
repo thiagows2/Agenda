@@ -35,6 +35,7 @@ public class FragmentoDatePicker extends DialogFragment
     public void onDateSet(DatePicker view, int ano, int mes, int dia) {
         String dataFormatada = String.valueOf(dia) + "/" + String.valueOf(mes+1) + "/" + String.valueOf(ano);
         mActivity.setDataSelecionada(dataFormatada);
+        mActivity.mostraCompromissos(dataFormatada);
     }
 
 }
